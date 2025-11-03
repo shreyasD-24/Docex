@@ -10,6 +10,11 @@ function UserList({ userList, socket, roomId }) {
 
   const ICE_SERVERS = [
     { urls: "stun:stun.l.google.com:19302" }, // STUN
+    {
+      urls: "turn:openrelay.metered.ca:80",
+      username: "openrelayproject",
+      credentials: "openrelayproject",
+    }, // TURN
   ];
 
   // Toggle microphone state
