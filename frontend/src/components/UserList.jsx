@@ -11,9 +11,11 @@ function UserList({ userList, socket, roomId }) {
   const ICE_SERVERS = [
     { urls: "stun:stun.l.google.com:19302" }, // STUN
     {
-      urls: "turn:openrelay.metered.ca:80",
-      username: "openrelayproject",
-      credential: "openrelayproject",
+      urls: "turn.speed.cloudflare.com:50000",
+      username:
+        "36ba9201ab2179f3b96061d3fe0d114041a67eba9625d71cac1f451e0997317d37b799de327af7c82283324ca7168b67c1c49d42c691530e65f40aa51f869f49",
+      credential:
+        "aba9b169546eb6dcc7bfb1cdf34544cf95b5161d602e3b5fa7c8342b2e9802fb",
     }, // TURN
   ];
 
