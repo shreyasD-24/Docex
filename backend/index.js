@@ -7,6 +7,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
 
-httpServer.listen(3001, () => {
+httpServer.listen(PORT, () => {
   console.log("Socket server is running on port 3001");
 });
