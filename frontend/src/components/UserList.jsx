@@ -11,11 +11,14 @@ function UserList({ userList, socket, roomId }) {
   const ICE_SERVERS = [
     { urls: "stun:stun.l.google.com:19302" }, // STUN
     {
-      urls: "turn.speed.cloudflare.com:50000",
-      username:
-        "36ba9201ab2179f3b96061d3fe0d114041a67eba9625d71cac1f451e0997317d37b799de327af7c82283324ca7168b67c1c49d42c691530e65f40aa51f869f49",
-      credential:
-        "aba9b169546eb6dcc7bfb1cdf34544cf95b5161d602e3b5fa7c8342b2e9802fb",
+      username: "68cbc059-4961-4611-8799-391a2fc2cfc2",
+      credential: import.meta.env.VITE_TURN_CREDENTIAL,
+      urls: [
+        "turn:eu-central.turnix.io:3478?transport=udp",
+        "turn:eu-central.turnix.io:3478?transport=tcp",
+        "turns:eu-central.turnix.io:443?transport=udp",
+        "turns:eu-central.turnix.io:443?transport=tcp",
+      ],
     }, // TURN
   ];
 
