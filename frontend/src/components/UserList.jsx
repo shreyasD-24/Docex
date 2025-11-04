@@ -14,8 +14,10 @@ function UserList({ userList, socket, roomId }) {
       username: import.meta.env.VITE_TURN_USERNAME,
       credential: import.meta.env.VITE_TURN_CREDENTIAL,
       urls: [
-        "turns:eu-central.turnix.io:443",
-        "turn:eu-central.turnix.io:3478",
+        "turn:us-west.turnix.io:3478?transport=udp",
+        "turn:us-west.turnix.io:3478?transport=tcp",
+        "turns:us-west.turnix.io:443?transport=udp",
+        "turns:us-west.turnix.io:443?transport=tcp",
       ],
     }, // TURN
   ];
