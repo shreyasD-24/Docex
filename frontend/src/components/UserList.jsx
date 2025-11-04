@@ -9,7 +9,10 @@ function UserList({ userList, socket, roomId }) {
   let [audioPermissionsGranted, setAudioPermissionsGranted] = useState(false);
 
   const ICE_SERVERS = [
-    { urls: "stun:stun.l.google.com:19302" }, // STUN
+    { urls: "stun:stun.l.google.com:19302" },
+    {
+      urls: ["stun:stun.turnix.io:3478"],
+    }, // STUN
     {
       username: "68cbc059-4961-4611-8799-391a2fc2cfc2",
       credential: import.meta.env.VITE_TURN_CREDENTIAL,
@@ -130,6 +133,7 @@ function UserList({ userList, socket, roomId }) {
 
     pc.onicecandidate = (event) => {
       if (event.candidate) {
+        console.log(event.candidate);
         socket.emit(ACTIONS.ICE_CANDIDATE, {
           target: userId,
           candidate: event.candidate,
