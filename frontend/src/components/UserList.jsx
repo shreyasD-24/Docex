@@ -9,7 +9,6 @@ function UserList({ userList, socket, roomId }) {
   let [audioPermissionsGranted, setAudioPermissionsGranted] = useState(false);
 
   const ICE_SERVERS = [
-    { urls: "stun:stun.l.google.com:19302" }, // STUN
     {
       username: import.meta.env.VITE_TURN_USERNAME,
       credential: import.meta.env.VITE_TURN_CREDENTIAL,
