@@ -9,14 +9,13 @@ function UserList({ userList, socket, roomId }) {
   let [audioPermissionsGranted, setAudioPermissionsGranted] = useState(false);
 
   const ICE_SERVERS = [
+    { urls: "stun:stun.l.google.com:19302" }, // STUN
     {
       username: import.meta.env.VITE_TURN_USERNAME,
       credential: import.meta.env.VITE_TURN_CREDENTIAL,
       urls: [
-        "turn:eu-central.turnix.io:3478?transport=udp",
-        "turn:eu-central.turnix.io:3478?transport=tcp",
-        "turns:eu-central.turnix.io:443?transport=udp",
-        "turns:eu-central.turnix.io:443?transport=tcp",
+        "turns:eu-central.turnix.io:443",
+        "turn:eu-central.turnix.io:3478",
       ],
     }, // TURN
   ];
@@ -187,6 +186,7 @@ function UserList({ userList, socket, roomId }) {
             <audio
               key={r.id}
               autoPlay
+              playsInline
               ref={(el) => el && (el.srcObject = r.stream)}
             />
           ))}
