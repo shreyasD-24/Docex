@@ -11,8 +11,8 @@ function UserList({ userList, socket, roomId }) {
   const ICE_SERVERS = [
     { urls: "stun:stun.l.google.com:19302" }, // STUN
     {
-      username: import.meta.env.VITE_TURN_USERNAME,
-      credential: import.meta.env.VITE_TURN_CREDENTIAL,
+      username: "483fe931-efb8-4dea-b659-5016d8ab146d",
+      credential: "5fa8bcd6a9b624bad9f109c09cdd1796",
       urls: [
         "turn:us-west.turnix.io:3478?transport=udp",
         "turn:us-west.turnix.io:3478?transport=tcp",
