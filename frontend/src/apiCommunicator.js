@@ -49,3 +49,13 @@ export async function generateAiApi(prompt) {
     return "Error in communicating with AI";
   }
 }
+
+export async function getIceServers() {
+  try {
+    const response = await axios.get("/ice");
+    return response.data;
+  } catch (error) {
+    console.log("Error fetching ICE servers:", error);
+    return null;
+  }
+}

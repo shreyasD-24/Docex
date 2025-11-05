@@ -3,7 +3,12 @@ import { ACTIONS } from "../../socket.js";
 import TipTap from "../components/TipTap.jsx";
 import AiChat from "../components/AiChat.jsx";
 import * as Y from "yjs";
-import { askAiApi, editAiApi, generateAiApi } from "../apiCommunicator.js";
+import {
+  askAiApi,
+  editAiApi,
+  generateAiApi,
+  getIceServers,
+} from "../apiCommunicator.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import UserList from "../components/UserList.jsx";
 import Loader from "../components/Loader.jsx";
@@ -17,6 +22,7 @@ const Editor = ({ socket }) => {
   let editor = useRef();
   let location = useLocation();
   let { userName, roomId } = location.state || {};
+  let iceServers = useRef(null);
 
   let navigate = useNavigate();
 
@@ -155,7 +161,8 @@ const Editor = ({ socket }) => {
     };
   }, [socket]);
 
-  function joinRoom() {
+  async function joinRoom() {
+    iceServers.current = await getIceServers();
     socket.emit(ACTIONS.JOIN, { roomId, userName });
     setUserList([{ socketId: socket.id, userName, isMuted: true }]);
     setLoading(false);
@@ -248,7 +255,12 @@ const Editor = ({ socket }) => {
               </div>
 
               {/* Active Users */}
-              <UserList userList={userList} socket={socket} roomId={roomId} />
+              <UserList
+                userList={userList}
+                socket={socket}
+                roomId={roomId}
+                iceServers={iceServers.current}
+              />
             </div>
             <div className="flex flex-col h-full ml-5">
               {/* Collaborative Workspace Header */}

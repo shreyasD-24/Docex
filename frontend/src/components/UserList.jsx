@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { ACTIONS } from "../../socket";
 
-function UserList({ userList, socket, roomId }) {
+function UserList({ userList, socket, roomId, iceServers }) {
   let [isMicOn, setIsMicOn] = useState(false); // false = red (muted), true = green (active)
   let peersRef = useRef({});
   let localStreamRef = useRef();
@@ -10,21 +10,7 @@ function UserList({ userList, socket, roomId }) {
 
   const ICE_SERVERS = [
     { urls: "stun:stun.l.google.com:19302" }, // STUN
-    {
-      username: import.meta.env.VITE_TURN_USERNAME2,
-      credential: import.meta.env.VITE_TURN_CREDENTIAL2,
-      urls: [
-        "turn:us-west.turnix.io:3478?transport=udp",
-        "turn:us-west.turnix.io:3478?transport=tcp",
-        "turns:us-west.turnix.io:443?transport=udp",
-        "turns:us-west.turnix.io:443?transport=tcp",
-      ],
-    }, // TURN1
-    {
-      username: import.meta.env.VITE_TURN_USERNAME,
-      credential: import.meta.env.VITE_TURN_CREDENTIAL,
-      urls: "turn:relay1.expressturn.com:3480",
-    }, // TURN2
+    ...iceServers, // TURN2
   ];
 
   // Toggle microphone state
@@ -117,7 +103,9 @@ function UserList({ userList, socket, roomId }) {
   const createPeerConnection = (userId, isInitiator) => {
     if (peersRef.current[userId]) return peersRef.current[userId];
 
-    const pc = new RTCPeerConnection({ iceServers: ICE_SERVERS });
+    const pc = new RTCPeerConnection({
+      iceServers: ICE_SERVERS,
+    });
     peersRef.current[userId] = pc;
 
     if (localStreamRef.current) {
@@ -135,7 +123,6 @@ function UserList({ userList, socket, roomId }) {
 
     pc.onicecandidate = (event) => {
       if (event.candidate) {
-        console.log(event.candidate);
         socket.emit(ACTIONS.ICE_CANDIDATE, {
           target: userId,
           candidate: event.candidate,
