@@ -11,15 +11,20 @@ function UserList({ userList, socket, roomId }) {
   const ICE_SERVERS = [
     { urls: "stun:stun.l.google.com:19302" }, // STUN
     {
-      username: "483fe931-efb8-4dea-b659-5016d8ab146d",
-      credential: "5fa8bcd6a9b624bad9f109c09cdd1796",
+      username: import.meta.env.VITE_TURN_USERNAME2,
+      credential: import.meta.env.VITE_TURN_CREDENTIAL2,
       urls: [
         "turn:us-west.turnix.io:3478?transport=udp",
         "turn:us-west.turnix.io:3478?transport=tcp",
         "turns:us-west.turnix.io:443?transport=udp",
         "turns:us-west.turnix.io:443?transport=tcp",
       ],
-    }, // TURN
+    }, // TURN1
+    {
+      username: import.meta.env.VITE_TURN_USERNAME,
+      credential: import.meta.env.VITE_TURN_CREDENTIAL,
+      urls: "turn:relay1.expressturn.com:3480",
+    }, // TURN2
   ];
 
   // Toggle microphone state

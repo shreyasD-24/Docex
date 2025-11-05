@@ -10,7 +10,7 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 import ToolbarButton from "./ToolbarButton";
 import Collaboration from "@tiptap/extension-collaboration";
-import { useState } from "react";
+import { useEffect } from "react";
 
 // ==================== CONSTANTS ====================
 
@@ -143,10 +143,28 @@ const TipTap = ({ ydoc, setEditor }) => {
       }),
       Collaboration.configure({ document: ydoc }),
     ],
-    content: "<p>Start typing...</p>",
   });
 
-  setEditor(editor);
+  // Only set the parent's editor ref once the editor instance is ready.
+  useEffect(() => {
+    setEditor(editor);
+  }, [editor, setEditor]);
+
+  useEffect(() => {
+    const id = "hide-remote-cursors";
+    if (document.getElementById(id)) return;
+    const style = document.createElement("style");
+    style.id = id;
+    style.innerHTML = `
+      .yjs-cursor, .yjs-selection, .prosemirror-yjs-cursor, .prosemirror-yjs-selection {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.getElementById(id)?.remove();
+  }, []);
 
   // Reactive state management for toolbar buttons and dropdowns
   const editorState = useEditorState({

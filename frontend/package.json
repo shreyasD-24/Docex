@@ -22,6 +22,7 @@
     "@tiptap/extension-underline": "^3.6.1",
     "@tiptap/react": "^3.6.1",
     "@tiptap/starter-kit": "^3.6.1",
+    "@tiptap/y-tiptap": "^3.0.0",
     "axios": "^1.12.2",
     "lottie-react": "^2.4.1",
     "react": "^19.1.1",
@@ -30,6 +31,7 @@
     "socket.io-client": "^4.8.1",
     "tailwindcss": "^4.1.13",
     "uuid": "^13.0.0",
+    "y-protocols": "^1.0.6",
     "yjs": "^13.6.27"
   },
   "devDependencies": {
