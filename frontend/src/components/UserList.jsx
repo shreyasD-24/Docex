@@ -1,17 +1,18 @@
 import { useRef, useEffect, useState } from "react";
 import { ACTIONS } from "../../socket";
+import { getIceServers } from "../apiCommunicator.js";
+import throttle from "../../throttle.js";
 
-function UserList({ userList, socket, roomId, iceServers }) {
+function UserList({ userList, socket, roomId }) {
   let [isMicOn, setIsMicOn] = useState(false); // false = red (muted), true = green (active)
   let peersRef = useRef({});
   let localStreamRef = useRef();
   const [remoteAudios, setRemoteAudios] = useState([]);
   let [audioPermissionsGranted, setAudioPermissionsGranted] = useState(false);
 
-  const ICE_SERVERS = [
-    { urls: "stun:stun.l.google.com:19302" }, // STUN
-    ...iceServers, // TURN2
-  ];
+  let ICE_SERVERS = [];
+
+  let getIce = throttle(getIceServers, 600);
 
   // Toggle microphone state
   const toggleMicrophone = () => {
@@ -62,10 +63,24 @@ function UserList({ userList, socket, roomId, iceServers }) {
 
   useEffect(() => {
     socket.on(ACTIONS.JOINED, async ({ socketId }) => {
+      let iceServers = await getIce();
+      if (iceServers != null) {
+        ICE_SERVERS = [
+          { urls: "stun:stun.l.google.com:19302" }, // STUN
+          ...iceServers, // TURN2
+        ];
+      }
       createPeerConnection(socketId, false);
     });
 
-    socket.on(ACTIONS.GETUSERS, ({ users }) => {
+    socket.on(ACTIONS.GETUSERS, async ({ users }) => {
+      let iceServers = await getIce();
+      if (iceServers != null) {
+        ICE_SERVERS = [
+          { urls: "stun:stun.l.google.com:19302" }, // STUN
+          ...iceServers, // TURN2
+        ];
+      }
       users.forEach(({ socketId }) => {
         createPeerConnection(socketId, true);
       });

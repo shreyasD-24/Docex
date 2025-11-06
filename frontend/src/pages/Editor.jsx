@@ -22,7 +22,6 @@ const Editor = ({ socket }) => {
   let editor = useRef();
   let location = useLocation();
   let { userName, roomId } = location.state || {};
-  let iceServers = useRef(null);
 
   let navigate = useNavigate();
 
@@ -162,7 +161,6 @@ const Editor = ({ socket }) => {
   }, [socket]);
 
   async function joinRoom() {
-    iceServers.current = await getIceServers();
     socket.emit(ACTIONS.JOIN, { roomId, userName });
     setUserList([{ socketId: socket.id, userName, isMuted: true }]);
     setLoading(false);
@@ -255,12 +253,7 @@ const Editor = ({ socket }) => {
               </div>
 
               {/* Active Users */}
-              <UserList
-                userList={userList}
-                socket={socket}
-                roomId={roomId}
-                iceServers={iceServers.current}
-              />
+              <UserList userList={userList} socket={socket} roomId={roomId} />
             </div>
             <div className="flex flex-col h-full ml-5">
               {/* Collaborative Workspace Header */}

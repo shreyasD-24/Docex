@@ -28,7 +28,7 @@ export async function generateIce(req, res) {
           "Content-Type": "application/json",
         },
         params: {
-          ttl: 10800,
+          ttl: 600, // time to live in seconds
         },
       }
     );
